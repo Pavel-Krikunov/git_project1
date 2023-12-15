@@ -37,7 +37,7 @@ def load_level(filename):
     # и подсчитываем максимальную длину
     max_width = max(map(len, level_map))
     # дополняем каждую строку пустыми клетками ('.')
-    return list(map(lambda x: x.ljust(max_width, '.'), level_map))
+    return list(map(lambda x: list(x.ljust(max_width, '.')), level_map))
 
 
 def generate_level(level, tile_group, player_group, tile_images, player_image):
@@ -51,6 +51,7 @@ def generate_level(level, tile_group, player_group, tile_images, player_image):
             elif level[y][x] == '@':
                 Tile(tile_images, 'empty', x, y, tile_group)
                 new_player = Player(player_image, x, y, player_group)
+                level[y][x] = '.'
     return new_player
 
 

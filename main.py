@@ -1,7 +1,8 @@
 import pygame
 
-from functoins import load_level, load_image
+from functoins import load_level, load_image, generate_level, move
 from settings import *
+from start import start_screen
 
 # Инициализируем игру
 pygame.init()
@@ -18,18 +19,24 @@ tile_images = {
 }
 player_image = load_image('mar.png')
 level_map = load_level("map.map")
-
-# создаем  player
-# открываем стартовый экран который воспроизводит игровой цикл пока не нажмем кнопку
-
+hero = generate_level(level_map, tile_group, hero_group, tile_images, player_image)
+start_screen(screen, clock)
 while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
         elif event.type == pygame.KEYDOWN:
-            pass
-            # обработка нажатий стрелок
+            if event.key == pygame.K_DOWN:
+                move(hero, level_map, "down")
+            if event.key == pygame.K_RIGHT:
+                move(hero, level_map, 'right')
+            if event.key == pygame.K_LEFT:
+                move(hero, level_map, 'left')
+            if event.key == pygame.K_UP:
+                move(hero, level_map, 'up')
     screen.fill(pygame.Color("black"))
+    tile_group.draw(screen)
+    hero_group.draw(screen)
     # Отрисовываем тайлы
     # Отрисовываем игрока
     clock.tick(FPS)
